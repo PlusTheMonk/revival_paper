@@ -1,2 +1,2 @@
-# revival_paper
-Supporting Code for 'Survival models and health sequences'
+# Survival models and health sequences
+Supporting Code for paper: 'Survival models and health sequences'
