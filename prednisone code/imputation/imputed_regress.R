@@ -1,6 +1,6 @@
 ## Survival Model ##
-source('/Users/walterdempsey/Documents/stat/research/joint_models/censoring/survival_models/Code/prednisone code/imputation/uncens_regress.R')
-source('/Users/walterdempsey/Documents/stat/research/joint_models/censoring/survival_models/Code/prednisone code/imputation/density_components.R')
+source('uncens_regress.R')
+source('density_components.R')
 
 library('survival')
 exp_model = survreg(Surv(Table_1$survival, !Table_1$cens)~1, dist = 'exponential')

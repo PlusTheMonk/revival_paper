@@ -1,7 +1,7 @@
 # Create the Correct Tables for Prothrombin Data
 source('http://www.stat.uchicago.edu/~pmcc/courses/regress.R')
 
-Liver_Data = read.table('/Users/walterdempsey/joint_models/censoring/jm_censoring/examples/liver/LiverData.csv', sep = ',', header = TRUE)
+Liver_Data = read.table('./LiverData.csv', sep = ',', header = TRUE)
 
 Table_2 = Liver_Data[,c(1,2,3,4)]
 
