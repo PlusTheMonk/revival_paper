@@ -37,7 +37,7 @@ for(j in 1:length(rev)) {
 		response[i] = mean((prothrombin[id == id_levels[i]])[obs])
 	}
 	for (k in 1:2) {
-		val_rev[j,k] = sum( dnorm(dmin_time/h) * response * (id_treat == k) * (t[j] <= max_time)) / sum(dnorm(dmin_time/h)* (t[j] <= max_time) * (id_treat == k))
+		val_rev[j,k] = sum( dnorm(dmin_time/h) * response * (id_treat == k) * (rev[j] <= max_time)) / sum(dnorm(dmin_time/h)* (rev[j] <= max_time) * (id_treat == k)*(rev[j] <= max_time))
 	}
 }
 
@@ -68,7 +68,7 @@ for(j in 1:length(rev)) {
     response[i] = mean((cens_prothrombin[cens_id == cens_id_levels[i]])[obs])
   }
   for (k in 1:2) {
-    cens_val_rev[j,k] = sum( dnorm(dmin_time/h) * response * (cens_id_treat == k) * (rev[j] <= cens_max_time)) / sum(dnorm(dmin_time/h)* (t[j] <= cens_max_time) * (cens_id_treat == k) * (rev[j] <= cens_max_time))
+    cens_val_rev[j,k] = sum( dnorm(dmin_time/h) * response * (cens_id_treat == k) * (rev[j] <= cens_max_time)) / sum(dnorm(dmin_time/h)* (rev[j] <= cens_max_time) * (cens_id_treat == k) * (rev[j] <= cens_max_time))
   }
 }
 
@@ -106,7 +106,7 @@ for(j in 1:length(forw)) {
 		response[i] = mean((prothrombin[id == id_levels[i]])[obs])
 	}
 	for (k in 1:2) {
-		val_forw[j,k] = sum( dnorm(dmin_time/h) * response * (id_treat == k) * (t[j] <= max_time)) / sum(dnorm(dmin_time/h)* (t[j] <= max_time) * (id_treat == k))
+		val_forw[j,k] = sum( dnorm(dmin_time/h) * response * (id_treat == k) * (forw[j] <= max_time)) / sum(dnorm(dmin_time/h)* (id_treat == k)*(forw[j] <= max_time))
 	}
 }
 
@@ -122,7 +122,7 @@ for(j in 1:length(forw)) {
     response[i] = mean((cens_prothrombin[cens_id == cens_id_levels[i]])[obs])
   }
   for (k in 1:2) {
-    cens_val_forw[j,k] = sum( dnorm(dmin_time/h) * response * (cens_id_treat == k) * (forw[j] <= cens_max_time)) / sum(dnorm(dmin_time/h)* (t[j] <= cens_max_time) * (cens_id_treat == k) * (forw[j] <= cens_max_time))
+    cens_val_forw[j,k] = sum( dnorm(dmin_time/h) * response * (cens_id_treat == k) * (forw[j] <= cens_max_time)) / sum(dnorm(dmin_time/h) * (cens_id_treat == k) * (forw[j] <= cens_max_time))
   }
 }
 
@@ -132,16 +132,16 @@ png("/Users/walterdempsey/Documents/stat/research/joint_models/revival_models/fo
 op <- par(oma = c(2,1,0,1) + 0.1,
           mar = c(1,1,0.5,0) + 0.1)
 
-plot(forw,val_forw[,1], col = "black", type = "l", lty = 1, ylim = c(50, 100), axes = FALSE, ylab = "Prothrombin Index", xlab = "Time Since Recruitment")
+plot(forw,cens_val_forw[,1], col = "black", type = "l", lty = 2, ylim = c(50, 100), axes = FALSE, ylab = "Prothrombin Index", xlab = "Time Since Recruitment")
 axis(side = 1, cex.axis = 0.75)
 axis(side = 2, cex.axis = 0.75)
-lines(forw,val_forw[,2], col = "red", type = "l", lty = 2)
+lines(forw,cens_val_forw[,2], col = "red", type = "l", lty = 2)
 
 legend(1,60, c("Control","Prednisone"), col = c("black","red"), lty = c(1,1), bty = "n", cex = 0.7)
 mtext("Time Since Recruitment", side = 1,line = 2, cex = 0.75)
 
-lines(forw,cens_val_forw[,1], col = "black")
-lines(forw,cens_val_forw[,2], col = "red")
+lines(forw,val_forw[,1], col = "black")
+lines(forw,val_forw[,2], col = "red")
 
 # legend(-4,60, c("Control","Prednisone"), col = c("black","red"), lty = c(1,1), cex = 0.7, bty = "n")
 
