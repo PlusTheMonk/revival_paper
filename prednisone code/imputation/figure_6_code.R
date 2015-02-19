@@ -1,6 +1,6 @@
 ### Functions and Source Code
-source('/Users/walterdempsey/Documents/stat/research/joint_models/censoring/survival_models/Code/prednisone code/imputation/uncens_regress.R')
-source('/Users/walterdempsey/Documents/stat/research/joint_models/censoring/survival_models/Code/prednisone code/imputation/density_components.R')
+source('uncens_regress.R')
+source('density_components.R')
 
 pred <- function( mean_params, cov_params, pat_table,y,Cov) {
   # Provides a function of the survival time, t,

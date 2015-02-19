@@ -176,7 +176,7 @@ T_stat_int = (avg_beta_int-int_baseline_model$beta)/sqrt(diag(avg_beta_cov_int))
 
 Imp_beta_int = cbind(avg_beta_int,beta_imp_se_int,avg_beta_int/beta_imp_se_int)
 
-Regress_beta = cbind(int_baseline_model$beta,int_baseline_model$beta.se,int_baseline_model$beta/int_baseline_model$beta.se)
+Regress_beta_int = cbind(int_baseline_model$beta,int_baseline_model$beta.se,int_baseline_model$beta/int_baseline_model$beta.se)
 
 Imp_sigma_int = cbind(avg_sigma_int,sigma_imp_se_int)
 

@@ -73,7 +73,7 @@ for(j in 1:length(rev)) {
 }
 
 #### Revival Plot ####
-png("/Users/walterdempsey/Documents/stat/research/joint_models/revival_models/rev_mean_traj.png", width = 6.5,height = 3, units = "in", res = 300)
+# png("/Users/walterdempsey/Documents/stat/research/joint_models/revival_models/rev_mean_traj.png", width = 6.5,height = 3, units = "in", res = 300)
 op <- par(oma = c(2,0,0,2) + 0.1,
           mar = c(1,1,0.5,1) + 0.1)
 
@@ -91,7 +91,7 @@ lines(-rev,val_rev[,2], col = "red", type = "l", lty = 1)
 
 # legend(-4,60, c("Control","Prednisone"), col = c("black","red"), lty = c(1,1), cex = 0.7, bty = "n")
 
-dev.off()
+# dev.off()
 
 #### Forward Uncensored ####
 max_time = tapply(forward, id, max)
@@ -128,7 +128,7 @@ for(j in 1:length(forw)) {
 
 #### Forward Plot ####
 
-png("/Users/walterdempsey/Documents/stat/research/joint_models/revival_models/forw_mean_traj.png", width = 6.5,height = 3, units = "in", res = 300)
+# png("/Users/walterdempsey/Documents/stat/research/joint_models/revival_models/forw_mean_traj.png", width = 6.5,height = 3, units = "in", res = 300)
 op <- par(oma = c(2,1,0,1) + 0.1,
           mar = c(1,1,0.5,0) + 0.1)
 
@@ -137,7 +137,7 @@ axis(side = 1, cex.axis = 0.75)
 axis(side = 2, cex.axis = 0.75)
 lines(forw,cens_val_forw[,2], col = "red", type = "l", lty = 2)
 
-legend(1,60, c("Control","Prednisone"), col = c("black","red"), lty = c(1,1), bty = "n", cex = 0.7)
+legend(1,60, c("Control","Prednisone"), col = c("black","red"), lty = c(1,1), lwd = 2, bty = "n", cex = 0.7)
 mtext("Time Since Recruitment", side = 1,line = 2, cex = 0.75)
 
 lines(forw,val_forw[,1], col = "black")
@@ -145,4 +145,4 @@ lines(forw,val_forw[,2], col = "red")
 
 # legend(-4,60, c("Control","Prednisone"), col = c("black","red"), lty = c(1,1), cex = 0.7, bty = "n")
 
-dev.off()
+# dev.off()
