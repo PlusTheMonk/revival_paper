@@ -1,6 +1,6 @@
 # Create the Correct Tables for Prothrombin Data
 
-Liver_Data = read.table('/Users/walterdempsey/joint_models/censoring/jm_censoring/examples/liver/LiverData.csv', sep = ',', header = TRUE)
+Liver_Data = read.table('./imputation/LiverData.csv', sep = ',', header = TRUE)
 
 Table_2 = Liver_Data[,c(1,2,3,4)]
 
@@ -42,6 +42,7 @@ rownames(M) <- rownames(N) <- c("T0-1", "T1-2", "T2-3", "T3-4", "T4-5", "T5-6", 
 M[row >= col] <- ymean;  N[row >= col] <- table(fst)
 
 print(M)  # Table 1
+print(N)
 
 #####
 ymean <- as.vector(M)
