@@ -1,23 +1,21 @@
 # Create the Correct Tables for Prothrombin Data
 
-divat.data = read.table('./b.long.csv', sep = ';', header = TRUE)
+liver <- read.csv("http://www.stat.uchicago.edu/~pmcc/reports/LiverData.csv")
+
+baseline <- liver$time==0
+liver$treatment[baseline] <- -1
+censored <- !liver$cens		## apparently liver$cens is coded in reverse
+revival <- (liver$survival - liver$time)[!censored]
+id <- liver$id[!censored];  prothrombin <- liver$prothrombin[!censored];
+survival <- liver$survival[!censored];  time <- liver$time[!censored]; 
+treat <- liver$treatment[!censored]
+treat <- as.factor(treat);  levels(treat) <- c("null", "control", "prednizone")
 
 ## Initialization 
-delta = 1/365
-deces.ind = unique(divat.data$id[divat.data$Retour == 1])
-
-surv <- function(id) {
-    divat.data$TpsEvtAns_depM12[divat.data$id == id][1]
-}
-
-deces.surv = unlist(lapply(deces.ind,surv))
-
-# computation of Table 1 (mean prothrombin values)
-obs = ((divat.data$Retour == 1) & (!is.na(divat.data$creat)))
-fs <- trunc(divat.data$TpsEvtAns_depM12[obs]);  fs <- pmin(fs,8)
-ft <- trunc(divat.data$tps_postM12[obs]);  ft <- pmin(ft, 8)
+fs <- trunc(survival);  fs <- pmin(fs,8)
+ft <- trunc(time);  ft <- pmin(ft, 8)
 fst <- fs + 9*ft
-ymean <- round(tapply(divat.data$creat[obs], fst, mean), 1)
+ymean <- round(tapply(prothrombin, fst, mean), 1)
 M <- N <- matrix(0, 9, 9); row <- as.numeric(gl(9, 1, 81));  col <- as.numeric(gl(9, 9, 81))
 colnames(M) <- colnames(N) <- c("t0-1", "t1-2", "t2-3", "t3-4", "t4-5", "t5-6", "t6-7", "t7-8", "t8+")
 rownames(M) <- rownames(N) <- c("T0-1", "T1-2", "T2-3", "T3-4", "T4-5", "T5-6", "T6-7", "T7-8", "T8+")
@@ -50,35 +48,9 @@ c(rsscd-rssnull, dfcd, (rsscd-rssnull)/dfcd),
 c(rssnull-rss_res, df_res, rssnull/df_res)),1)
 
 ### Interval Check : Section 2.2
-divat.data$revival = divat.data$TpsEvtAns_depM12-divat.data$tps_postM12
-divat.data.uncens = divat.data[divat.data$Retour == 1,]
-
-revinterval <- function(i) {
-  rev = divat.data.uncens$revival[divat.data.uncens$id == i]     
-  rev_ints = rev[length(rev)]
-  if (length(rev) > 1) {
-    rev_ints = c(-rev[2:length(rev)] + rev[1:(length(rev)-1)],rev_ints)  
-  }
-  return(rev_ints)
-}
-
-rev_ints = lapply(deces.ind,revinterval)
-
-final = second_final = third_final = rep(0,0)
-
-for(i in 1:length(rev_ints)){
-  x = rev_ints[[i]]
-  final = c(final,x[length(x)])
-  
-  if(length(x) > 1 ) {
-    second_final = c(second_final,x[length(x)-1])   
-  }
-  if(length(x) > 2 ) {
-    third_final = c(third_final,x[length(x) - 2])
-  }
-}
-
-
-c(median(final), median(second_final), median(third_final))*365
-c(mean(final), mean(second_final), mean(third_final))*365
-
+liver$revival = liver$survival - liver$time
+r1 <- tapply(revival, id, min)
+min2 <- function(x){diff(sort(x))[1]};  r2 <- tapply(revival, id, min2)
+min3 <- function(x){diff(sort(x))[2]};  r3 <- tapply(revival, id, min3)
+min4 <- function(x){diff(sort(x))[3]};  r4 <- tapply(revival, id, min4)
+summary(r1*365);  summary(r2*365); summary(r3*365);  summary(r4*365)
